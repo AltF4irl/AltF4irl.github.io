@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange rate using API</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class=" col container-fluid">
+          <span class="navbar-brand mb-0 h1">EXCHANGE RATES</span>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+      </nav>
+
+      
+    <div class="row "> 
+        <div class="col"></div><div class="col"></div><div class="col"></div>
+    </div> 
+
+
+    <div class="container">
+        <div class="row ">  
+        <div class="col"></div>
+
+        
+                <div class="col bg-light rounded-5 p-5 m-3">
+                    <h2>USD to TL</h2>
+                    <span id="tl"></span>
+                    <input type="number" id="1" class="form-control m-2" placeholder="USD" >
+                    <input type="number" id="2" class="form-control m-2" placeholder="TL" readonly>
+                    <button id="btn" class="btn btn-outline-dark " value="Convert">Convert</button>
+                </div>
+
+                <div class="col bg-light rounded-5 p-5 m-3">
+                    <h2>TL to USD</h2>
+                    <span id="usd"></span>
+                    <input type="number" id="3" class="form-control m-2" placeholder="TL" >
+                    <input type="number" id="4" class="form-control m-2" placeholder="USD" readonly>
+                    <button id="btn2" class="btn btn-dark" value="Convert">Convert</button>
+                  </div>
+       
+        
+        <div class="col"></div>
+    </div>  
+
+
+    
+    
+    <div class="row ">  
+        <div class="col"></div>
+
+ 
+                <div class="col bg-light rounded-5 p-5 m-3">
+                    <h2>EUR to TL</h2>
+                    <span id="tl2"></span>
+                    <input type="number" id="5" class="form-control m-2" placeholder="EUR" >
+                    <input type="number" id="6" class="form-control m-2" placeholder="TL" readonly>
+                    <button id="btn3" class="btn btn-dark" value="Convert">Convert</button>
+                </div>
+
+                <div class="col bg-light rounded-5 p-5 m-3">
+                    <h2>TL to EUR</h2>
+                    <span id="eur"></span>
+                    <input type="number" id="7" class="form-control m-2" placeholder="TL" >
+                    <input type="number" id="8" class="form-control m-2" placeholder="EUR" readonly>
+                    <button id="btn4" class="btn btn-dark" value="Convert">Convert</button>
+            </div>
+        
+        <div class="col"></div>
+    </div> 
+
+
+  
+    
+
+    
+    
+    
+    <script>
+        const cvt1 = document.getElementById("1");
+        const cvt2 = document.getElementById("2");
+        const sub = document.getElementById("btn");
+        const cvt3 = document.getElementById("3");
+        const cvt4 = document.getElementById("4");
+        const sub2 = document.getElementById("btn2");
+
+        const cvt5 = document.getElementById("5");
+        const cvt6 = document.getElementById("6");
+        const sub3 = document.getElementById("btn3");
+        const cvt7 = document.getElementById("7");
+        const cvt8 = document.getElementById("8");
+        const sub4 = document.getElementById("btn4");
+
+        const usd = document.getElementById("usd");
+        const tl = document.getElementById("tl");
+
+        const eur = document.getElementById("eur");
+        const tl2 = document.getElementById("tl2");
+
+        
+
+        const API_KEY = "6a5e78e98e4eb5ebb76f9bf853120e4d";
+        const API_URL = "http://api.exchangeratesapi.io/v1/latest?access_key=" + API_KEY + "&symbols=USD,TRY,EUR&format=1";
+
+        
+        
+
+        async function currency() {
+            // const res = await fetch(API_URL);
+            let obj;
+            let usdrate;
+            let tlrate;
+            // const data = res.json();
+            // // const data = res.json();
+            // console.log(data);
+            fetch(API_URL)
+            .then(response => response.json())
+            .then(data => obj = data)
+            .then(() => console.log(obj))
+            .then(() => usdrate = obj.rates['USD'])
+            .then(() => tlrate = obj.rates['TRY'])
+            .then(() => tl.innerHTML += "USD current rate is = "+(tlrate / usdrate).toFixed(5)+" TL<br><br>")
+            .then(() => usd.innerHTML += "TL current rate is = "+(usdrate / tlrate).toFixed(5)+" USD<br><br>")
+            .then(() => tl2.innerHTML += "EUR current rate is = "+(tlrate).toFixed(5)+" TL<br><br>")
+            .then(() => eur.innerHTML += "TL current rate is = "+(1 / tlrate).toFixed(5)+" EUR<br><br>")
+            .then(() => sub.addEventListener('click', function() {
+                cvt2.value = cvt1.value * tlrate / usdrate; 
+            }))
+            .then(() => sub2.addEventListener('click', function() {
+                cvt4.value = cvt3.value * usdrate / tlrate; 
+            }))
+            .then(() => sub3.addEventListener('click', function() {
+                cvt6.value = cvt5.value * tlrate; 
+            }))
+            .then(() => sub4.addEventListener('click', function() {
+                cvt8.value = cvt7.value * 1 / tlrate; 
+            }));    
+        
+
+        }
+
+        currency();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
