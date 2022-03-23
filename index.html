@@ -120,14 +120,15 @@
             let usdrate;
             let tlrate;
             // const data = res.json();
-            // // const data = res.json();
+            // const data = res.json();
             // console.log(data);
-            fetch(API_URL)
+            const options = {method: 'GET', headers: {Accept: 'application/json'}};
+            fetch('https://api.fastforex.io/fetch-all?from=EUR&api_key=b8473a831e-6aec85918a-r97gtd', options)
             .then(response => response.json())
             .then(data => obj = data)
             .then(() => console.log(obj))
-            .then(() => usdrate = obj.rates['USD'])
-            .then(() => tlrate = obj.rates['TRY'])
+            .then(() => usdrate = obj.results['USD'])
+            .then(() => tlrate = obj.results['TRY'])
             .then(() => tl.innerHTML += "USD current rate is = "+(tlrate / usdrate).toFixed(5)+" TL<br><br>")
             .then(() => usd.innerHTML += "TL current rate is = "+(usdrate / tlrate).toFixed(5)+" USD<br><br>")
             .then(() => tl2.innerHTML += "EUR current rate is = "+(tlrate).toFixed(5)+" TL<br><br>")
@@ -144,6 +145,14 @@
             .then(() => sub4.addEventListener('click', function() {
                 cvt8.value = cvt7.value * 1 / tlrate; 
             }));    
+
+
+            
+
+            // fetch('https://api.fastforex.io/fetch-all?from=EUR&api_key=b8473a831e-6aec85918a-r97gtd', options)
+            // .then(response => response.json())
+            // .then(response => console.log(response))
+            // .catch(err => console.error(err));
         
 
         }
